@@ -1,0 +1,1 @@
+# chrome-manifest-generator-plugin
