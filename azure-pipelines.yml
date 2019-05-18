@@ -17,5 +17,12 @@ steps:
 
 - script: |
     yarn
+    yarn test
     yarn build
-  displayName: 'yarn and build'
+  displayName: 'yarn, test and build'
+
+- task: PublishTestResults@2
+  condition: succeededOrFailed()
+  inputs:
+    testRunner: JUnit
+    testResultsFiles: '**/junit.xml'
