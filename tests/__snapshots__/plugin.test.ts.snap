@@ -1,0 +1,228 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChromeManifestGeneratorPlugin tests Manifest is generated correcly for a basic background script 1`] = `
+Object {
+  "/dist/manifest.json": "{
+  \\"manifest_version\\": 2,
+  \\"name\\": \\"Test Extension\\",
+  \\"short_name\\": \\"TestExtension\\",
+  \\"description\\": \\"This is a text extension\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"permissions\\": [
+    \\"background\\"
+  ],
+  \\"web_accessible_resources\\": [
+    \\"img/*\\"
+  ],
+  \\"background\\": {
+    \\"scripts\\": [
+      \\"default.js\\"
+    ]
+  },
+  \\"content_scripts\\": []
+}",
+}
+`;
+
+exports[`ChromeManifestGeneratorPlugin tests Manifest is generated correcly for a basic content script 1`] = `
+Object {
+  "/dist/manifest.json": "{
+  \\"manifest_version\\": 2,
+  \\"name\\": \\"Test Extension\\",
+  \\"short_name\\": \\"TestExtension\\",
+  \\"description\\": \\"This is a text extension\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"permissions\\": [
+    \\"https://www.example.com/*\\"
+  ],
+  \\"web_accessible_resources\\": [
+    \\"img/*\\"
+  ],
+  \\"background\\": {
+    \\"scripts\\": []
+  },
+  \\"content_scripts\\": [
+    {
+      \\"js\\": [
+        \\"default.js\\"
+      ],
+      \\"type\\": \\"content\\",
+      \\"run_at\\": \\"document_idle\\",
+      \\"matches\\": [
+        \\"https://www.example.com/*\\"
+      ]
+    }
+  ]
+}",
+}
+`;
+
+exports[`ChromeManifestGeneratorPlugin tests chrome.storage.* requests for "storage" permission 1`] = `
+Object {
+  "/dist/manifest.json": "{
+  \\"manifest_version\\": 2,
+  \\"name\\": \\"Test Extension\\",
+  \\"short_name\\": \\"TestExtension\\",
+  \\"description\\": \\"This is a text extension\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"permissions\\": [
+    \\"storage\\",
+    \\"https://www.example.com/*\\"
+  ],
+  \\"web_accessible_resources\\": [
+    \\"img/*\\"
+  ],
+  \\"background\\": {
+    \\"scripts\\": []
+  },
+  \\"content_scripts\\": [
+    {
+      \\"js\\": [
+        \\"default.js\\"
+      ],
+      \\"type\\": \\"content\\",
+      \\"run_at\\": \\"document_idle\\",
+      \\"matches\\": [
+        \\"https://www.example.com/*\\"
+      ]
+    }
+  ]
+}",
+}
+`;
+
+exports[`ChromeManifestGeneratorPlugin tests document.execCommand("copy") requests for "clipboardWrite" permission 1`] = `
+Object {
+  "/dist/manifest.json": "{
+  \\"manifest_version\\": 2,
+  \\"name\\": \\"Test Extension\\",
+  \\"short_name\\": \\"TestExtension\\",
+  \\"description\\": \\"This is a text extension\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"permissions\\": [
+    \\"clipboardWrite\\",
+    \\"https://www.example.com/*\\"
+  ],
+  \\"web_accessible_resources\\": [
+    \\"img/*\\"
+  ],
+  \\"background\\": {
+    \\"scripts\\": []
+  },
+  \\"content_scripts\\": [
+    {
+      \\"js\\": [
+        \\"default.js\\"
+      ],
+      \\"type\\": \\"content\\",
+      \\"run_at\\": \\"document_idle\\",
+      \\"matches\\": [
+        \\"https://www.example.com/*\\"
+      ]
+    }
+  ]
+}",
+}
+`;
+
+exports[`ChromeManifestGeneratorPlugin tests document.execCommand("cut") requests for "clipboardWrite" permission 1`] = `
+Object {
+  "/dist/manifest.json": "{
+  \\"manifest_version\\": 2,
+  \\"name\\": \\"Test Extension\\",
+  \\"short_name\\": \\"TestExtension\\",
+  \\"description\\": \\"This is a text extension\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"permissions\\": [
+    \\"clipboardWrite\\",
+    \\"https://www.example.com/*\\"
+  ],
+  \\"web_accessible_resources\\": [
+    \\"img/*\\"
+  ],
+  \\"background\\": {
+    \\"scripts\\": []
+  },
+  \\"content_scripts\\": [
+    {
+      \\"js\\": [
+        \\"default.js\\"
+      ],
+      \\"type\\": \\"content\\",
+      \\"run_at\\": \\"document_idle\\",
+      \\"matches\\": [
+        \\"https://www.example.com/*\\"
+      ]
+    }
+  ]
+}",
+}
+`;
+
+exports[`ChromeManifestGeneratorPlugin tests document.execCommand("paste") requests for "clipboardRead" permission 1`] = `
+Object {
+  "/dist/manifest.json": "{
+  \\"manifest_version\\": 2,
+  \\"name\\": \\"Test Extension\\",
+  \\"short_name\\": \\"TestExtension\\",
+  \\"description\\": \\"This is a text extension\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"permissions\\": [
+    \\"clipboardRead\\",
+    \\"https://www.example.com/*\\"
+  ],
+  \\"web_accessible_resources\\": [
+    \\"img/*\\"
+  ],
+  \\"background\\": {
+    \\"scripts\\": []
+  },
+  \\"content_scripts\\": [
+    {
+      \\"js\\": [
+        \\"default.js\\"
+      ],
+      \\"type\\": \\"content\\",
+      \\"run_at\\": \\"document_idle\\",
+      \\"matches\\": [
+        \\"https://www.example.com/*\\"
+      ]
+    }
+  ]
+}",
+}
+`;
+
+exports[`ChromeManifestGeneratorPlugin tests navigator.geolocation.* requests for "geolocation" permission 1`] = `
+Object {
+  "/dist/manifest.json": "{
+  \\"manifest_version\\": 2,
+  \\"name\\": \\"Test Extension\\",
+  \\"short_name\\": \\"TestExtension\\",
+  \\"description\\": \\"This is a text extension\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"permissions\\": [
+    \\"geolocation\\",
+    \\"https://www.example.com/*\\"
+  ],
+  \\"web_accessible_resources\\": [
+    \\"img/*\\"
+  ],
+  \\"background\\": {
+    \\"scripts\\": []
+  },
+  \\"content_scripts\\": [
+    {
+      \\"js\\": [
+        \\"default.js\\"
+      ],
+      \\"type\\": \\"content\\",
+      \\"run_at\\": \\"document_idle\\",
+      \\"matches\\": [
+        \\"https://www.example.com/*\\"
+      ]
+    }
+  ]
+}",
+}
+`;
