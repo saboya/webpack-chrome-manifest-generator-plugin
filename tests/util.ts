@@ -2,14 +2,14 @@ import * as webpack from 'webpack'
 import { vol } from 'memfs'
 import * as path from 'path'
 
-import ChromeManifestGeneratorPlugin, { ChromeExtensionManifest } from '../src'
+import ChromeManifestGeneratorPlugin, { ChromeExtensionManifest, Options } from '../src'
 
 jest.mock('fs')
 
 const OUTPUT_PATH = '/dist'
 const MANIFEST_FILENAME = 'manifest.json'
 
-const config: webpack.Configuration = {
+const config: (options: Partial<Options>) => webpack.Configuration = (options) => ({
   mode: 'development',
   target: 'web',
   stats: 'verbose',
@@ -24,17 +24,18 @@ const config: webpack.Configuration = {
         description: 'This is a text extension',
         version: '1.0.0',
       },
+      ...options,
     }),
   ],
   output: {
     path: OUTPUT_PATH,
     filename: '[name].js',
   },
-}
+})
 
-export const WebpackTestHelper = async () => {
+export const WebpackTestHelper = async (options: Partial<Options> = {}) => {
   return new Promise<{ stats: webpack.Stats, manifestJSON: ChromeExtensionManifest }>((resulve, reject) => {
-    webpack([config], (err: Error | null, stats) => {
+    webpack([config(options)], (err: Error | null, stats) => {
       expect(err).toBeNull()
 
       if (err !== null) {
