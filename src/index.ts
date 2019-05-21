@@ -50,7 +50,7 @@ class ChromeManifestGeneratorPlugin implements Plugin {
   private meta: ReturnType<typeof Meta>
 
   constructor (options: { package: Package } & Partial<Options>) {
-    this.options = Object.assign(defaultOptions, options)
+    this.options = Object.assign({}, defaultOptions, options)
     this.permissions = Promise.resolve([])
   }
 
