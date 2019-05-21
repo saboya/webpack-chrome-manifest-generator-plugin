@@ -14,11 +14,12 @@ interface Package {
   version: string,
 }
 
-interface Options {
+export interface Options {
   autoDetectPermissions: boolean,
   name: string,
   permissions: ChromeExtensionManifest['permissions'],
   package: Package,
+  content_security_policy?: string,
 }
 
 const defaultOptions = {
@@ -32,6 +33,7 @@ export interface ChromeExtensionManifest {
   name: string
   short_name: string
   version: string
+  content_security_policy?: string
   default_locale?: string
   description: string
   permissions: string[]
@@ -115,6 +117,10 @@ class ChromeManifestGeneratorPlugin implements Plugin {
           ],
           'background': { scripts: [] },
           'content_scripts': [],
+        }
+
+        if (this.options.content_security_policy !== undefined) {
+          manifest['content_security_policy'] = this.options.content_security_policy
         }
 
         if (contentScripts.length > 0) {

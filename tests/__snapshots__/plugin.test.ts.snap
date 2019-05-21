@@ -57,6 +57,31 @@ Object {
 }
 `;
 
+exports[`ChromeManifestGeneratorPlugin tests Manifest is generated with supplied content_security_policy 1`] = `
+Object {
+  "/dist/manifest.json": "{
+  \\"manifest_version\\": 2,
+  \\"name\\": \\"Test Extension\\",
+  \\"short_name\\": \\"TestExtension\\",
+  \\"description\\": \\"This is a text extension\\",
+  \\"version\\": \\"1.0.0\\",
+  \\"permissions\\": [
+    \\"background\\"
+  ],
+  \\"web_accessible_resources\\": [
+    \\"img/*\\"
+  ],
+  \\"background\\": {
+    \\"scripts\\": [
+      \\"default.js\\"
+    ]
+  },
+  \\"content_scripts\\": [],
+  \\"content_security_policy\\": \\"script-src 'self' 'unsafe-eval'; object-src 'self'\\"
+}",
+}
+`;
+
 exports[`ChromeManifestGeneratorPlugin tests chrome.storage.* requests for "storage" permission 1`] = `
 Object {
   "/dist/manifest.json": "{

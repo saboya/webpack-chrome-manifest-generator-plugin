@@ -87,5 +87,23 @@ describe('ChromeManifestGeneratorPlugin tests', () => {
     expect(manifestJSON.permissions).toContain('background')
   })
 
+  test('Manifest is generated with supplied content_security_policy', async () => {
+    const scriptUrlMatch = 'https://www.example.com/*'
+
+    vol.fromJSON({
+      '/src/index.js': `
+        /*__TYPE__: "background"*/
+        /*__MATCHES__: ["${scriptUrlMatch}"]*/
+
+        console.log('test');`,
+    })
+
+    const csp = 'script-src \'self\' \'unsafe-eval\'; object-src \'self\''
+
+    const { manifestJSON } = await WebpackTestHelper({ content_security_policy: csp })
+
+    expect(manifestJSON.content_security_policy).toEqual(csp)
+  })
+
   permissionTests.map(permissionTestHelper)
 })
