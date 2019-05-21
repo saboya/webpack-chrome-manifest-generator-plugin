@@ -51,6 +51,8 @@ const permissionTestHelper = async ({ testTitle, permission, code }: PermissionT
   })
 }
 
+beforeEach(() => vol.reset())
+
 describe('ChromeManifestGeneratorPlugin tests', () => {
   test('Manifest is generated correcly for a basic content script', async () => {
     const scriptUrlMatch = 'https://www.example.com/*'
