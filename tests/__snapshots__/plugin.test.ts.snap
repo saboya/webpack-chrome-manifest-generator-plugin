@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ChromeManifestGeneratorPlugin tests Manifest is generated correcly for a basic background script 1`] = `
+exports[`ChromeManifestGeneratorPlugin tests Manifest is generated correctly for a basic background script 1`] = `
 Object {
   "/dist/manifest.json": "{
   \\"manifest_version\\": 2,
@@ -24,7 +24,7 @@ Object {
 }
 `;
 
-exports[`ChromeManifestGeneratorPlugin tests Manifest is generated correcly for a basic content script 1`] = `
+exports[`ChromeManifestGeneratorPlugin tests Manifest is generated correctly for a basic content script 1`] = `
 Object {
   "/dist/manifest.json": "{
   \\"manifest_version\\": 2,

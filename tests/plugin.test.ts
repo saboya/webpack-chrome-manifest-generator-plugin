@@ -54,7 +54,7 @@ const permissionTestHelper = async ({ testTitle, permission, code }: PermissionT
 beforeEach(() => vol.reset())
 
 describe('ChromeManifestGeneratorPlugin tests', () => {
-  test('Manifest is generated correcly for a basic content script', async () => {
+  test('Manifest is generated correctly for a basic content script', async () => {
     const scriptUrlMatch = 'https://www.example.com/*'
 
     vol.fromJSON({
@@ -71,7 +71,7 @@ describe('ChromeManifestGeneratorPlugin tests', () => {
     expect(manifestJSON.permissions).toContain(scriptUrlMatch)
   })
 
-  test('Manifest is generated correcly for a basic background script', async () => {
+  test('Manifest is generated correctly for a basic background script', async () => {
     const scriptUrlMatch = 'https://www.example.com/*'
 
     vol.fromJSON({
