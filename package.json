@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "tsc src/index.ts -d -m commonjs -t es2017 --outDir lib",
-    "lint": "tslint --project ./",
+    "lint": "eslint --quiet --ext .js,.ts,.tsx ./src/",
     "test": "jest --ci --reporters=default --reporters=jest-junit"
   },
   "devDependencies": {
@@ -19,12 +19,18 @@
     "@types/tapable": "^1.0.4",
     "@types/webpack": "^4.41.2",
     "@types/webpack-sources": "^0.1.5",
+    "@typescript-eslint/eslint-plugin": "^2.20.0",
+    "@typescript-eslint/parser": "^2.20.0",
+    "eslint": "^6.8.0",
+    "eslint-config-standard-with-typescript": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "jest": "^24.9.0",
     "jest-junit": "^10.0.0",
     "memfs": "^3.0.3",
     "ts-jest": "^24.3.0",
-    "tslint": "^5.20.1",
-    "tslint-config-standard": "^9.0.0",
     "typescript": "^3.7.4",
     "webpack": "^4.41.5"
   },

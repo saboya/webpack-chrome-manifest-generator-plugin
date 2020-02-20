@@ -9,17 +9,17 @@ import Permissions from './permissions'
 type Permissions = any[]
 
 interface Package {
-  name: string,
-  description: string,
-  version: string,
+  name: string
+  description: string
+  version: string
 }
 
 export interface Options {
-  autoDetectPermissions: boolean,
-  name: string,
-  permissions: ChromeExtensionManifest['permissions'],
-  package: Package,
-  content_security_policy?: string,
+  autoDetectPermissions: boolean
+  name: string
+  permissions: ChromeExtensionManifest['permissions']
+  package: Package
+  content_security_policy?: string
 }
 
 const defaultOptions = {
@@ -40,14 +40,14 @@ export interface ChromeExtensionManifest {
   background: {
     persistent?: boolean
     page?: string
-    scripts: string[],
+    scripts: string[]
   }
   content_scripts: ContentScript[]
   web_accessible_resources: string[]
 }
 
 class ChromeManifestGeneratorPlugin implements Plugin {
-  private options: Options
+  private readonly options: Options
   private permissions: Promise<Permissions>
   private meta: ReturnType<typeof Meta>
 
@@ -56,7 +56,7 @@ class ChromeManifestGeneratorPlugin implements Plugin {
     this.permissions = Promise.resolve([])
   }
 
-  apply (compiler: Compiler) {
+  apply (compiler: Compiler): void {
     this.meta = Meta(compiler)
 
     if (this.options.autoDetectPermissions) {
@@ -83,21 +83,21 @@ class ChromeManifestGeneratorPlugin implements Plugin {
             chunk => chunk.entryModule.resource === key,
           )
 
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           if (chunk === undefined || !Object.prototype.hasOwnProperty.call(meta, key)) {
             continue
           }
 
           switch (script.type) {
             case 'content':
-              const contentScript: ContentScript = {
+              script.matches.forEach(match => permissions.add(match))
+
+              contentScripts.push({
                 js: chunk.files,
                 type: script.type,
                 run_at: script.run_at,
                 matches: script.matches,
-              }
-              contentScript.matches.forEach(match => permissions.add(match))
-
-              contentScripts.push(contentScript)
+              })
               break
             case 'background':
               backgroundScripts.push(...chunk.files)
@@ -106,21 +106,21 @@ class ChromeManifestGeneratorPlugin implements Plugin {
         }
 
         const manifest: ChromeExtensionManifest = {
-          'manifest_version': 2,
-          'name': this.options.name,
-          'short_name': this.options.package.name,
-          'description': this.options.package.description,
-          'version': this.options.package.version,
-          'permissions': Array.from(permissions),
-          'web_accessible_resources': [
+          manifest_version: 2,
+          name: this.options.name,
+          short_name: this.options.package.name,
+          description: this.options.package.description,
+          version: this.options.package.version,
+          permissions: Array.from(permissions),
+          web_accessible_resources: [
             'img/*',
           ],
-          'background': { scripts: [] },
-          'content_scripts': [],
+          background: { scripts: [] },
+          content_scripts: [],
         }
 
         if (this.options.content_security_policy !== undefined) {
-          manifest['content_security_policy'] = this.options.content_security_policy
+          manifest.content_security_policy = this.options.content_security_policy
         }
 
         if (contentScripts.length > 0) {
@@ -138,7 +138,7 @@ class ChromeManifestGeneratorPlugin implements Plugin {
         )
 
         const relativeOutputPath = path.relative(
-         compilation.outputOptions.path,
+          compilation.outputOptions.path,
           outputPathAndFilename,
         )
 

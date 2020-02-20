@@ -1,8 +1,8 @@
 import { Compiler } from 'webpack'
 
 export interface Script<T extends string> {
-  js: string[],
-  type: T,
+  js: string[]
+  type: T
 }
 
 export interface BackgroundScript extends Script<'background'> {
@@ -15,13 +15,15 @@ export interface ContentScript extends Script<'content'> {
   matches: string[]
 }
 
-const meta = (compiler: Compiler) => {
-  return new Promise<{ [key: string]: ContentScript | BackgroundScript}>((resolve, reject) => {
+type MetaPluginReturn = Record<string, ContentScript | BackgroundScript>
+
+const meta = async (compiler: Compiler): Promise<MetaPluginReturn> => {
+  return new Promise<MetaPluginReturn>((resolve) => {
     compiler.hooks.normalModuleFactory.tap('TestPlugin', factory => {
       const files: { [key: string]: any } = {}
 
-      const handler = (parser: any) => {
-        parser.hooks.program.tap('ChromeManifestGenerator', (ast: any, comments: any[]) => {
+      const handler = (parser: any): void => {
+        parser.hooks.program.tap('ChromeManifestGenerator', (_: any, comments: any[]) => {
           const file = parser.state.current.resource
           const regexp = /^\s*(__RUN_AT__|__MATCHES__|__TYPE__):\s*(.+)\s*$/
           const keys: { [key: string]: any } = {
@@ -47,7 +49,6 @@ const meta = (compiler: Compiler) => {
               }
             }
           })
-
         })
       }
 

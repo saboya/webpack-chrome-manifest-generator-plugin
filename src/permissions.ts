@@ -1,43 +1,43 @@
 import { Compiler } from 'webpack'
 
 export type Permissions = 'alarms'
- | 'audio'
- | 'browser'
- | 'certificateProvider'
- | 'clipboard'
- | 'clipboardRead'
- | 'clipboardWrite'
- | 'contextMenus'
- | 'desktopCapture'
- | 'displaySource'
- | 'documentScan'
- | 'experimental'
- | 'fileBrowserHandler'
- | 'fileSystem'
- | 'fileSystemProvider'
- | 'geolocation'
- | 'gcm'
- | 'hid'
- | 'identity'
- | 'idle'
- | 'mdns'
- | 'mediaGalleries'
- | 'notifications'
- | 'platformKeys'
- | 'power'
- | 'printerProvider'
- | 'proxy'
- | 'serial'
- | 'signedInDevices'
- | 'socket'
- | 'storage'
- | 'syncFileSystem'
- | 'tts'
- | 'usb'
- | 'virtualKeyboard'
- | 'vpnProvider'
- | 'wallpaper'
- | 'webview'
+| 'audio'
+| 'browser'
+| 'certificateProvider'
+| 'clipboard'
+| 'clipboardRead'
+| 'clipboardWrite'
+| 'contextMenus'
+| 'desktopCapture'
+| 'displaySource'
+| 'documentScan'
+| 'experimental'
+| 'fileBrowserHandler'
+| 'fileSystem'
+| 'fileSystemProvider'
+| 'geolocation'
+| 'gcm'
+| 'hid'
+| 'identity'
+| 'idle'
+| 'mdns'
+| 'mediaGalleries'
+| 'notifications'
+| 'platformKeys'
+| 'power'
+| 'printerProvider'
+| 'proxy'
+| 'serial'
+| 'signedInDevices'
+| 'socket'
+| 'storage'
+| 'syncFileSystem'
+| 'tts'
+| 'usb'
+| 'virtualKeyboard'
+| 'vpnProvider'
+| 'wallpaper'
+| 'webview'
 
 const simplePermissions: Permissions[] = [
   'alarms',
@@ -77,12 +77,12 @@ const simplePermissions: Permissions[] = [
   'webview',
 ]
 
-const permissions = (compiler: Compiler) => {
+const permissions = async (compiler: Compiler): Promise<string[]> => {
   const permissions = new Set<Permissions>()
 
-  return new Promise<string[]>((resolve, reject) => {
+  return new Promise<string[]>((resolve) => {
     compiler.hooks.normalModuleFactory.tap('TestPlugin', factory => {
-      const handler = (parser: any) => {
+      const handler = (parser: any): void => {
         parser.hooks.call.for('document.execCommand').tap('ChromeManifestGenerator', (expression: any) => {
           if (expression.arguments.length > 0) {
             switch (expression.arguments[0].value) {
@@ -103,7 +103,7 @@ const permissions = (compiler: Compiler) => {
           }
         })
 
-        parser.hooks.callAnyMember.for('navigator.geolocation').tap('ChromeManifestGenerator', (expression: any) => {
+        parser.hooks.callAnyMember.for('navigator.geolocation').tap('ChromeManifestGenerator', (_: any) => {
           permissions.add('geolocation')
         })
       }
@@ -113,7 +113,7 @@ const permissions = (compiler: Compiler) => {
       factory.hooks.parser.tap('javascript/esm', 'ChromeManifestGenerator', handler)
     })
 
-    compiler.hooks.afterCompile.tap('ChromeManifestGenerator', (compilation) => {
+    compiler.hooks.afterCompile.tap('ChromeManifestGenerator', (_) => {
       resolve(Array.from(permissions))
     })
   })
