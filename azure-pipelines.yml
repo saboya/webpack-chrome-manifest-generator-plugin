@@ -20,7 +20,7 @@ steps:
 
 - task: CmdLine@2
   inputs:
-    script: 'cat patches/* | md5 > patches.hash'
+    script: 'cat patches/* | md5sum > patches.hash'
   displayName: Generate hash for package patches
 
 - task: Cache@2
