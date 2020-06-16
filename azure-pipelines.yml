@@ -8,11 +8,19 @@ trigger:
 
 pool:
   vmImage: 'ubuntu-latest'
+strategy:
+  matrix:
+    node_10_x:
+      node_version: 10.x
+    node_12_x:
+      node_version: 12.x
+    node_14_x:
+      node_version: 14.x
 
 steps:
 - task: UseNode@1
   inputs:
-    version: '12.x'
+    version: $(node_version)
 
 - script: |
     yarn --frozen-lockfile
