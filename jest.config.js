@@ -1,7 +1,7 @@
 module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts,js}'],
-  coverageReporters: ['text', 'text-summary'],
+  coverageReporters: ['text', 'text-summary', 'cobertura'],
   preset: 'ts-jest',
   testEnvironment: 'node',
   transform: {
