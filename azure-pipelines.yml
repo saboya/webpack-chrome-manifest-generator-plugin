@@ -26,3 +26,9 @@ steps:
   inputs:
     testRunner: JUnit
     testResultsFiles: '**/junit.xml'
+
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/*coverage.xml'
+    reportDirectory: '$(System.DefaultWorkingDirectory)/**/coverage'
