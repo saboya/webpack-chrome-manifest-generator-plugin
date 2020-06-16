@@ -3,9 +3,6 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
-variables:
-  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
-
 trigger:
 - master
 
@@ -16,19 +13,6 @@ steps:
 - task: UseNode@1
   inputs:
     version: '12.x'
-
-- task: CmdLine@2
-  inputs:
-    script: 'cat patches/* | md5sum > patches.hash'
-  displayName: Generate hash for package patches
-
-- task: Cache@2
-  inputs:
-    key: 'yarn | "$(Agent.OS)" | yarn.lock | patches.hash'
-    restoreKeys: |
-      yarn | "$(Agent.OS)" | yarn.lock | patches.hash
-    path: $(YARN_CACHE_FOLDER)
-  displayName: Cache Yarn packages
 
 - script: |
     yarn --frozen-lockfile
