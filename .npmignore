@@ -57,6 +57,10 @@ yarn.lock
 # Typescript source code
 src/
 
+# Patches
+patches/
+
 # Misc
 .gitignore
 jest.config.js
+*.tgz
