@@ -12,6 +12,7 @@
   "scripts": {
     "build": "tsc src/index.ts -d -m commonjs -t es2017 --outDir lib",
     "lint": "eslint --quiet --ext .js,.ts,.tsx ./src/",
+    "postinstall": "patch-package",
     "test": "jest --ci --reporters=default --reporters=jest-junit --coverageReporters=cobertura"
   },
   "devDependencies": {
@@ -30,6 +31,8 @@
     "jest": "^26.0.1",
     "jest-junit": "^10.0.0",
     "memfs": "^3.2.0",
+    "patch-package": "^6.2.2",
+    "postinstall-postinstall": "^2.1.0",
     "ts-jest": "^26.1.0",
     "typescript": "^3.9.5",
     "webpack": "^4.43.0"
