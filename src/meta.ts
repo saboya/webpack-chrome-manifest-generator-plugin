@@ -34,19 +34,21 @@ const meta = async (compiler: Compiler): Promise<MetaPluginReturn> => {
 
           comments.filter(comment => {
             return comment.type === 'Block' && regexp.test(comment.value)
-          }).map(comment => {
+          }).forEach(comment => {
             if (files[file] === undefined) {
               files[file] = {}
             }
 
             const match = regexp.exec(comment.value)
 
-            if (match !== null) {
-              try {
-                files[file][keys[match[1]]] = JSON.parse(match[2])
-              } catch (err) {
-                throw new Error(`[chrome-extension-plugin]: Eror parsing ${match[1]} field in ${file}.`)
-              }
+            if (match === null) {
+              return
+            }
+
+            try {
+              files[file][keys[match[1]]] = JSON.parse(match[2])
+            } catch (err) {
+              throw new Error(`[chrome-extension-plugin]: Eror parsing ${match[1]} field in ${file}.`)
             }
           })
         })
