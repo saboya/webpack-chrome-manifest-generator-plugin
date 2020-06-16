@@ -27,8 +27,7 @@ steps:
   inputs:
     key: 'yarn | "$(Agent.OS)" | yarn.lock | patches.hash'
     restoreKeys: |
-      yarn | "$(Agent.OS)" | patches.hash
-      yarn
+      yarn | "$(Agent.OS)" | yarn.lock | patches.hash
     path: $(YARN_CACHE_FOLDER)
   displayName: Cache Yarn packages
 
