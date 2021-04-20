@@ -14,7 +14,7 @@ const config: (options: Partial<Options>) => webpack.Configuration = (options) =
   target: 'web',
   stats: 'verbose',
   entry: {
-    'default': '/src/index.js',
+    default: '/src/index.js',
   },
   plugins: [
     new ChromeManifestGeneratorPlugin({
@@ -34,7 +34,7 @@ const config: (options: Partial<Options>) => webpack.Configuration = (options) =
 })
 
 export const WebpackTestHelper = async (options: Partial<Options> = {}) => {
-  return new Promise<{ stats: webpack.Stats, manifestJSON: ChromeExtensionManifest }>((resulve, reject) => {
+  return new Promise<{ stats: webpack.compilation.MultiStats, manifestJSON: ChromeExtensionManifest }>((resulve, reject) => {
     webpack([config(options)], (err: Error | null, stats) => {
       expect(err).toBeNull()
 
