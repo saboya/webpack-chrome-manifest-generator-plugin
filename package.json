@@ -12,30 +12,30 @@
   "scripts": {
     "build": "tsc src/index.ts -d -m commonjs -t es2017 --outDir lib",
     "lint": "eslint --quiet --ext .js,.ts,.tsx ./src/",
-    "postinstall": "patch-package",
     "test": "jest --ci --reporters=default --reporters=jest-junit --coverageReporters=cobertura"
   },
+  "resolutions": {
+    "istanbul-reports": "^3.0.5"
+  },
   "devDependencies": {
-    "@types/jest": "^26.0.0",
-    "@types/tapable": "^1.0.5",
-    "@types/webpack": "^4.41.17",
-    "@types/webpack-sources": "^1.4.0",
-    "@typescript-eslint/eslint-plugin": "^3.3.0",
-    "@typescript-eslint/parser": "^3.3.0",
-    "eslint": "^7.2.0",
-    "eslint-config-standard-with-typescript": "^18.0.2",
-    "eslint-plugin-import": "^2.21.2",
+    "@types/jest": "^27.0.2",
+    "@types/tapable": "^2.2.2",
+    "@types/webpack": "^4.41.31",
+    "@types/webpack-sources": "^1.4.4",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint": "^7.32.0",
+    "eslint-config-standard-with-typescript": "^21.0.1",
+    "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-standard": "^4.0.1",
-    "jest": "^26.0.1",
-    "jest-junit": "^10.0.0",
-    "memfs": "^3.2.0",
-    "patch-package": "^6.2.2",
+    "eslint-plugin-promise": "^5.1.0",
+    "jest": "^27.2.5",
+    "jest-junit": "^13.0.0",
+    "memfs": "^3.3.0",
     "postinstall-postinstall": "^2.1.0",
-    "ts-jest": "^26.1.0",
-    "typescript": "^3.9.5",
-    "webpack": "^4.43.0"
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.4",
+    "webpack": "^4.46.0"
   },
   "dependencies": {
     "webpack-sources": "^1.4.3"
