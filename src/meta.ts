@@ -1,4 +1,4 @@
-import { Compiler } from 'webpack'
+import type { Compiler, javascript } from 'webpack'
 
 export interface Script<T extends string> {
   js: string[]
@@ -19,22 +19,24 @@ type MetaPluginReturn = Record<string, ContentScript | BackgroundScript>
 
 const meta = async (compiler: Compiler): Promise<MetaPluginReturn> => {
   return new Promise<MetaPluginReturn>((resolve) => {
-    compiler.hooks.normalModuleFactory.tap('TestPlugin', factory => {
-      const files: { [key: string]: any } = {}
+    compiler.hooks.normalModuleFactory.tap('ChromeManifestGenerator', factory => {
+      const files: Record<string, any> = {}
 
-      const handler = (parser: any): void => {
-        parser.hooks.program.tap('ChromeManifestGenerator', (_: any, comments: any[]) => {
+      const handler = (parser: javascript.JavascriptParser): void => {
+        parser.hooks.program.tap('ChromeManifestGenerator', (_, comments) => {
           const file = parser.state.current.resource
           const regexp = /^\s*(__RUN_AT__|__MATCHES__|__TYPE__):\s*(.+)\s*$/
-          const keys: { [key: string]: any } = {
+          const keys: Record<string, string> = {
             __MATCHES__: 'matches',
             __RUN_AT__: 'run_at',
             __TYPE__: 'type',
           }
 
-          comments.filter(comment => {
-            return comment.type === 'Block' && regexp.test(comment.value)
-          }).forEach(comment => {
+          for (
+            let comment of comments.filter(c => {
+              return c.type === 'Block' && regexp.test(c.value)
+            })
+          ) {
             if (files[file] === undefined) {
               files[file] = {}
             }
@@ -47,16 +49,14 @@ const meta = async (compiler: Compiler): Promise<MetaPluginReturn> => {
 
             try {
               files[file][keys[match[1]]] = JSON.parse(match[2])
-            } catch (err) {
+            } catch {
               throw new Error(`[chrome-extension-plugin]: Eror parsing ${match[1]} field in ${file}.`)
             }
-          })
+          }
         })
       }
 
-      factory.hooks.parser.tap('javascript/auto', 'ChromeManifestGenerator', handler)
-      factory.hooks.parser.tap('javascript/dynamic', 'ChromeManifestGenerator', handler)
-      factory.hooks.parser.tap('javascript/esm', 'ChromeManifestGenerator', handler)
+      factory.hooks.parser.for('javascript/auto').tap('ChromeManifestGenerator', handler)
 
       resolve(files)
     })
