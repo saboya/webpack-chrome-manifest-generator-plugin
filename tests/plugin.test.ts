@@ -1,8 +1,7 @@
-process.env.MEMFS_DONT_WARN = '1'
-
 import { vol } from 'memfs'
+import { type PermissionTest, WebpackTestHelper } from './util'
 
-import { PermissionTest, WebpackTestHelper } from './util'
+process.env.MEMFS_DONT_WARN = '1'
 
 jest.mock('fs')
 
@@ -51,7 +50,9 @@ const permissionTestHelper = async ({ testTitle, permission, code }: PermissionT
   })
 }
 
-beforeEach(() => vol.reset())
+beforeEach(() => {
+  vol.reset()
+})
 
 describe('ChromeManifestGeneratorPlugin tests', () => {
   test('Manifest is generated correctly for a basic content script', async () => {
@@ -105,5 +106,6 @@ describe('ChromeManifestGeneratorPlugin tests', () => {
     expect(manifestJSON.content_security_policy).toEqual(csp)
   })
 
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
   permissionTests.map(permissionTestHelper)
 })

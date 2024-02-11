@@ -1,2 +1,4 @@
+import * as memfs from 'memfs'
+
 process.chdir('/')
-module.exports = require('memfs')
+module.exports = memfs
