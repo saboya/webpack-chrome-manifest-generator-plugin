@@ -10,12 +10,12 @@ pool:
   vmImage: 'ubuntu-latest'
 strategy:
   matrix:
-    node_10_x:
-      node_version: 10.x
-    node_12_x:
-      node_version: 12.x
-    node_14_x:
-      node_version: 14.x
+    node_16_x:
+      node_version: 16.x
+    node_18_x:
+      node_version: 18.x
+    node_20_x:
+      node_version: 20.x
 
 steps:
 - task: UseNode@1
@@ -23,10 +23,10 @@ steps:
     version: $(node_version)
 
 - script: |
-    yarn --frozen-lockfile
-    yarn test
-    yarn build
-  displayName: 'yarn, test and build'
+    npm install
+    npm test
+    npm build
+  displayName: 'npm, test and build'
 
 - task: PublishTestResults@2
   condition: succeededOrFailed()
