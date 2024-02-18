@@ -24,8 +24,8 @@ steps:
 
 - script: |
     npm install
-    npm test
-    npm build
+    npm run test
+    npm run build
   displayName: 'npm, test and build'
 
 - task: PublishTestResults@2
