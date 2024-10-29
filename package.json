@@ -28,7 +28,7 @@
     "oxlint": "^0.2.8",
     "ts-jest": "^29.1.2",
     "typescript": "^5.3.3",
-    "webpack": "^5.51.1"
+    "webpack": "^5.94.0"
   },
   "dependencies": {
     "webpack-sources": "^3.2.3"
