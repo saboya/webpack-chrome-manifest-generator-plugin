@@ -1,6 +1,6 @@
 import { vol } from 'memfs'
 import * as path from 'node:path'
-import * as webpack from 'webpack'
+import { webpack, type Configuration, type MultiStats } from 'webpack'
 
 import ChromeManifestGeneratorPlugin, { type ChromeExtensionManifest, type Options } from '../src'
 
@@ -9,7 +9,7 @@ jest.mock('fs')
 const OUTPUT_PATH = '/dist'
 const MANIFEST_FILENAME = 'manifest.json'
 
-const config: (options: Partial<Options>) => webpack.Configuration = (options) => ({
+const config: (options: Partial<Options>) => Configuration = (options) => ({
   mode: 'development',
   target: 'web',
   stats: 'verbose',
@@ -34,7 +34,7 @@ const config: (options: Partial<Options>) => webpack.Configuration = (options) =
 })
 
 export const WebpackTestHelper = async (options: Partial<Options> = {}) => {
-  return new Promise<{ stats: webpack.MultiStats; manifestJSON: ChromeExtensionManifest }>((resolve, reject) => {
+  return new Promise<{ stats: MultiStats; manifestJSON: ChromeExtensionManifest }>((resolve, reject) => {
     webpack([config(options)], (err, stats) => {
       expect(err).toBeNull()
 

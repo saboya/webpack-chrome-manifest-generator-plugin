@@ -2,7 +2,7 @@ import type {
   CallExpression,
   Literal,
 } from 'estree'
-import { type Compiler, type javascript } from 'webpack'
+import type { Compiler, javascript } from 'webpack'
 
 // https://developer.chrome.com/docs/extensions/reference/permissions-list
 
@@ -118,18 +118,16 @@ export const buildPermissions = async (compiler: Compiler): Promise<Permissions[
           }
 
           switch (expression.arguments[0].value) {
-            case 'paste': {
+            case 'paste':
               permissions.add('clipboardRead')
               break
-            }
             case 'copy':
-            case 'cut': {
+            case 'cut':
               permissions.add('clipboardWrite')
               break
-            }
-            default: {
+            default:
               break
-            }
+
           }
         })
 

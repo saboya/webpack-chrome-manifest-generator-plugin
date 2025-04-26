@@ -15,7 +15,13 @@ export interface ContentScript extends Script<'content'> {
   matches: string[]
 }
 
-type MetaPluginReturn = Record<string, ContentScript | BackgroundScript>
+interface ScriptComment {
+  __RUN_AT__: string
+  __MATCHES__: string
+  __TYPE__: string
+}
+
+interface MetaPluginReturn { [key: string]: ContentScript | BackgroundScript }
 
 const meta = async (compiler: Compiler): Promise<MetaPluginReturn> => {
   return new Promise<MetaPluginReturn>((resolve) => {
@@ -26,7 +32,7 @@ const meta = async (compiler: Compiler): Promise<MetaPluginReturn> => {
         parser.hooks.program.tap('ChromeManifestGenerator', (_, comments) => {
           const file = parser.state.current.resource
           const regexp = /^\s*(__RUN_AT__|__MATCHES__|__TYPE__):\s*(.+)\s*$/
-          const keys: Record<string, string> = {
+          const keys: ScriptComment = {
             __MATCHES__: 'matches',
             __RUN_AT__: 'run_at',
             __TYPE__: 'type',
@@ -48,6 +54,7 @@ const meta = async (compiler: Compiler): Promise<MetaPluginReturn> => {
             }
 
             try {
+              // @ts-ignore
               files[file][keys[match[1]]] = JSON.parse(match[2])
             } catch {
               throw new Error(`[chrome-extension-plugin]: Eror parsing ${match[1]} field in ${file}.`)

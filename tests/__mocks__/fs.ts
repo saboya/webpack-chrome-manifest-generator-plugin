@@ -1,4 +1,4 @@
-import * as memfs from 'memfs'
+import memfs from 'memfs'
 
 process.chdir('/')
 module.exports = memfs
