@@ -1,4 +1,4 @@
-module.exports = {
+const jestConfig = {
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts,js}'],
   coverageReporters: ['text', 'text-summary'],
@@ -9,3 +9,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js', 'json', 'node'],
 }
+
+export default jestConfig
