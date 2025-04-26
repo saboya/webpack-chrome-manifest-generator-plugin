@@ -1,17 +1,24 @@
 {
   "name": "webpack-chrome-manifest-generator-plugin",
-  "version": "2.0.4",
-  "main": "./lib/index.js",
+  "version": "2.0.5",
+  "type": "module",
+  "main": "lib/index.cjs",
+  "module": "lib/index.mjs",
+  "types": "lib/index.d.ts",
+  "exports": {
+    "import": "./lib/index.mjs",
+    "require": "./lib/index.cjs"
+  },
   "author": "Rodrigo Saboya",
   "license": "MIT",
   "private": false,
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/saboya/webpack-chrome-manifest-generator-plugin"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run clean && tsc-multi",
+    "clean": "tsc-multi --clean",
     "lint": "oxlint --fix",
     "test": "jest --ci --reporters=default --reporters=jest-junit --coverageReporters=cobertura"
   },
@@ -28,6 +35,7 @@
     "memfs": "^4.6.0",
     "oxlint": "^0.16.7",
     "ts-jest": "^29.1.2",
+    "tsc-multi": "^1.1.0",
     "typescript": "^5.8.3",
     "webpack": "^5.99.7"
   },

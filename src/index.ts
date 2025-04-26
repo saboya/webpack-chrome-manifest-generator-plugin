@@ -1,9 +1,9 @@
 import * as path from 'node:path'
 import { Compilation, type Compiler, type WebpackPluginInstance, sources } from 'webpack'
 
-import Meta, { type ContentScript } from './meta.js'
+import Meta, { type ContentScript } from './meta'
 
-import { type Permissions, buildPermissions } from './permissions.js'
+import { type Permissions, buildPermissions } from './permissions'
 
 interface Package {
   name: string
@@ -46,6 +46,7 @@ export interface ChromeExtensionManifest {
 class ChromeManifestGeneratorPlugin implements WebpackPluginInstance {
   private readonly options: Options
   private permissions: Promise<Permissions[]>
+  // @ts-expect-error this will be initialized when plugin runs
   private meta: ReturnType<typeof Meta>
 
   constructor(options: { package: Package } & Partial<Options>) {
@@ -134,11 +135,11 @@ class ChromeManifestGeneratorPlugin implements WebpackPluginInstance {
           manifest.content_security_policy = this.options.content_security_policy
         }
 
-        if (0 < contentScripts.length) {
+        if (contentScripts.length > 0) {
           manifest.content_scripts = contentScripts
         }
 
-        if (0 < backgroundScripts.length) {
+        if (backgroundScripts.length > 0) {
           manifest.permissions.push('background')
           manifest.background.scripts = backgroundScripts
         }
