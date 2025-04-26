@@ -1,6 +1,6 @@
 {
   "name": "webpack-chrome-manifest-generator-plugin",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "main": "./lib/index.js",
   "author": "Rodrigo Saboya",
   "license": "MIT",

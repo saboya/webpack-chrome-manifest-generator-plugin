@@ -1,9 +1,9 @@
 import * as path from 'node:path'
 import { Compilation, type Compiler, type WebpackPluginInstance, sources } from 'webpack'
 
-import Meta, { type ContentScript } from './meta'
+import Meta, { type ContentScript } from './meta.js'
 
-import { type Permissions, buildPermissions } from './permissions'
+import { type Permissions, buildPermissions } from './permissions.js'
 
 interface Package {
   name: string
