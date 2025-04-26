@@ -3,7 +3,7 @@
     "lib": ["ESNext"],
     "outDir": "./lib",
     "target": "ESNext",
-    "module": "CommonJS",
+    "module": "ES6",
     "moduleResolution": "node",
     "declaration": true,
     "emitDecoratorMetadata": true,
