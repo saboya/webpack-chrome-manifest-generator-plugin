@@ -1,5 +1,5 @@
 import * as path from 'node:path'
-import { Compilation, type Compiler, type WebpackPluginInstance, sources } from 'webpack'
+import webpack, { type WebpackPluginInstance } from 'webpack'
 
 import Meta, { type ContentScript } from './meta'
 
@@ -54,18 +54,11 @@ class ChromeManifestGeneratorPlugin implements WebpackPluginInstance {
     this.permissions = Promise.resolve([])
   }
 
-  apply(compiler: Compiler): void {
+  apply(compiler: webpack.Compiler): void {
     this.meta = Meta(compiler)
 
     if (this.options.autoDetectPermissions) {
-      this.permissions = Promise.race([
-        buildPermissions(compiler),
-        new Promise<Permissions[]>((resolve) =>
-          setTimeout(() => {
-            resolve([])
-          }, 1000)
-        ),
-      ])
+      this.permissions = buildPermissions(compiler)
     }
 
     compiler.hooks.thisCompilation.tap('ChromeManifestGenerator', (compilation) => {
@@ -75,7 +68,7 @@ class ChromeManifestGeneratorPlugin implements WebpackPluginInstance {
 
       compilation.hooks.processAssets.tapPromise({
         name: 'ChromeManifestGenerator',
-        stage: Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
+        stage: webpack.Compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
       }, async (_assets) => {
         const [autoPermissions, meta] = await Promise.all([this.permissions,this.meta])
 
@@ -154,7 +147,7 @@ class ChromeManifestGeneratorPlugin implements WebpackPluginInstance {
           outputPathAndFilename,
         )
 
-        compilation.emitAsset(relativeOutputPath, new sources.RawSource(JSON.stringify(manifest, undefined, 2)))
+        compilation.emitAsset(relativeOutputPath, new webpack.sources.RawSource(JSON.stringify(manifest, undefined, 2)))
       })
     })
   }

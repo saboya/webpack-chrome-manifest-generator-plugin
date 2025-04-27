@@ -23,6 +23,12 @@ interface ScriptComment {
 
 interface MetaPluginReturn { [key: string]: ContentScript | BackgroundScript }
 
+const SCRIPT_COMMENT_REGEXP = /^\s*(__RUN_AT__|__MATCHES__|__TYPE__):\s*(.+)\s*$/
+
+function matchScriptComment(comment: string) {
+  return SCRIPT_COMMENT_REGEXP.exec(comment) as (RegExpExecArray & [string, keyof ScriptComment, string]) | null
+}
+
 const meta = async (compiler: Compiler): Promise<MetaPluginReturn> => {
   return new Promise<MetaPluginReturn>((resolve) => {
     compiler.hooks.normalModuleFactory.tap('ChromeManifestGenerator', factory => {
@@ -30,7 +36,7 @@ const meta = async (compiler: Compiler): Promise<MetaPluginReturn> => {
 
       const handler = (parser: javascript.JavascriptParser): void => {
         parser.hooks.program.tap('ChromeManifestGenerator', (_, comments) => {
-          const file = parser.state.current.resource
+          const moduleIdentifier = parser.state.current.identifier()
           const regexp = /^\s*(__RUN_AT__|__MATCHES__|__TYPE__):\s*(.+)\s*$/
           const keys: ScriptComment = {
             __MATCHES__: 'matches',
@@ -43,21 +49,20 @@ const meta = async (compiler: Compiler): Promise<MetaPluginReturn> => {
               return c.type === 'Block' && regexp.test(c.value)
             })
           ) {
-            if (files[file] === undefined) {
-              files[file] = {}
+            if (files[moduleIdentifier] === undefined) {
+              files[moduleIdentifier] = {}
             }
 
-            const match = regexp.exec(comment.value)
+            const match = matchScriptComment(comment.value)
 
             if (match === null) {
               return
             }
 
             try {
-              // @ts-ignore
-              files[file][keys[match[1]]] = JSON.parse(match[2])
+              files[moduleIdentifier][keys[match[1]]] = JSON.parse(match[2])
             } catch {
-              throw new Error(`[chrome-extension-plugin]: Eror parsing ${match[1]} field in ${file}.`)
+              throw new Error(`[chrome-extension-plugin]: Error parsing ${match[1]} field in ${parser.state.current.resource}.`)
             }
           }
         })
