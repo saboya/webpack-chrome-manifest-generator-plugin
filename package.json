@@ -1,6 +1,6 @@
 {
   "name": "webpack-chrome-manifest-generator-plugin",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "type": "module",
   "main": "lib/index.cjs",
   "module": "lib/index.mjs",
